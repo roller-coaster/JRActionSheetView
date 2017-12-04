@@ -125,8 +125,8 @@
     _titleLab.text = action.title;
     _titleLab.textColor = [UIColor blueColor];
     if (action.style == JRAlertActionStyleDestructive) _titleLab.textColor = [UIColor redColor];
-    [self setAccessoryType:UITableViewCellAccessoryNone];
-    if (action.isSelect) [self setAccessoryType:UITableViewCellAccessoryCheckmark];
+//    [self setAccessoryType:UITableViewCellAccessoryNone];
+//    if (action.isSelect) [self setAccessoryType:UITableViewCellAccessoryCheckmark];
 }
 
 + (CGFloat)JRActionSheetViewTableViewCellForHeight{
