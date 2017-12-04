@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
-s.name         = 'JRSystemActionSheetView'
-s.version      = '1.0.1'
-s.summary      = 'Media Editor (edit photo、edit video)'
+s.name         = 'JRActionSheetView'
+s.version      = '1.0.2'
+s.summary      = 'look like system actionsheetController'
 s.homepage     = 'https://github.com/roller-coaster/JRActionSheetView'
 s.license      = 'MIT'
 s.author       = { 'djr' => 'dayflyking@163.com' }
