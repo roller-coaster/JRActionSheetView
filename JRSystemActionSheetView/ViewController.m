@@ -22,7 +22,7 @@
 }
 
 - (IBAction)showSimpleDemo:(id)sender {
-    JRActionSheetView *actionSheetView = [JRActionSheetView actionSheetViewWithTitle:@"我啊上外" message:@"啦"];
+    JRActionSheetView *actionSheetView = [JRActionSheetView actionSheetViewWithTitle:@"" message:@"333333333"];
     [actionSheetView addJRAlertAction:[JRAlertAction alerActionWithTitle:@"222" style:(JRAlertActionStyleCancel) handler:^(JRAlertAction * _Nullable action) {
 
     }]];

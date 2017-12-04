@@ -412,7 +412,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
     if (_title || _message) {
         UITextView *customTextView = [[UITextView alloc] initWithFrame:CGRectMake(JRActionSheetView_Default_Margin, 0, CGRectGetWidth(_backgroundView.frame), 100)];
         customTextView.font = [UIFont boldSystemFontOfSize:15.0f];
-        customTextView.text = [NSString stringWithFormat:@"%@ \n", _title];
+        if (_title.length > 0) customTextView.text = [NSString stringWithFormat:@"%@ \n", _title];
         customTextView.textColor = [UIColor grayColor];
         customTextView.textAlignment = NSTextAlignmentCenter;
         customTextView.backgroundColor = [UIColor whiteColor];
@@ -420,7 +420,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
         [_backgroundView addSubview:_textView];
         NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
         paragraph.alignment = NSTextAlignmentCenter;
-        [_textView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", _message] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor grayColor], NSParagraphStyleAttributeName:paragraph}]];
+        if (_message.length > 0)[_textView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", _message] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor grayColor], NSParagraphStyleAttributeName:paragraph}]];
     }
 }
 
@@ -471,8 +471,12 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
         UIFont *messageFont = [UIFont systemFontOfSize:15.0f];
         CGSize titleSize = CGSizeMake(0, 10);
         CGSize messageSize = CGSizeMake(0, 10);
-        if (_title.length > 0) titleSize = [[NSString stringWithFormat:@"%@ \n", _title] boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:titleFont} context:nil].size;
+        if (_title.length > 0) titleSize = [[NSString stringWithFormat:@"%@", _title] boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:titleFont} context:nil].size;
         if (_message.length > 0) messageSize = [_message boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:messageFont} context:nil].size;
+        if (_title.length > 0 && _message.length > 0) {
+            if (_title.length > 0) titleSize = [[NSString stringWithFormat:@"%@ \n", _title] boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:titleFont} context:nil].size;
+            if (_message.length > 0) messageSize = [_message boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:messageFont} context:nil].size;
+        }
         height = titleSize.height + messageSize.height + JRActionSheetView_Default_Margin;
     }
     return height;
