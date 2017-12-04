@@ -33,6 +33,12 @@
     }return self;
 }
 
+#pragma mark style取颜色
++ (UIColor *)jr_coverJRAlertActionStyle:(JRAlertActionStyle)style{
+    UIColor *color = [UIColor colorWithRed:21.0f/255.0f green:126.0f/255.0f blue:251.0f/255.0f alpha:1.0f];
+    if (style == JRAlertActionStyleDestructive) color = [UIColor colorWithRed:252.0f/255.0f green:61.0f/255.0f blue:57.0f/255.0f alpha:1.0f];
+    return color;
+}
 @end
 #pragma mark ----JRAlertAction(end)----
 #pragma mark
@@ -123,7 +129,7 @@
 - (void)setCellData:(JRAlertAction *)action{
     _alaertAction = action;
     _titleLab.text = action.title;
-    _titleLab.textColor = [UIColor blueColor];
+    _titleLab.textColor = [JRAlertAction jr_coverJRAlertActionStyle:action.style];
     if (action.style == JRAlertActionStyleDestructive) _titleLab.textColor = [UIColor redColor];
 //    [self setAccessoryType:UITableViewCellAccessoryNone];
 //    if (action.isSelect) [self setAccessoryType:UITableViewCellAccessoryCheckmark];
@@ -346,6 +352,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
     UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
     [button setBackgroundColor:[UIColor whiteColor]];
     [button setFrame:CGRectMake(JRActionSheetView_Default_Margin, height - JRActionSheetView_CancelBtn_Hight - JRActionSheetView_Default_Margin, width - JRActionSheetView_Default_Margin*2, JRActionSheetView_CancelBtn_Hight)];
+    [button.titleLabel setFont:[UIFont boldSystemFontOfSize:18.0f]];
     [button setTitle:action.title forState:(UIControlStateNormal)];
     [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(cancalButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
