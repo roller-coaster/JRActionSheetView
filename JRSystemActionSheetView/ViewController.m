@@ -29,10 +29,20 @@
     for (NSInteger i = 0; i < 10; i ++) {
         JRSheetAction *action = [JRSheetAction sheetActionWithTitle:@"test" style:(JRAlertActionStyleDefault) handler:^(JRSheetAction * _Nullable action) {
             NSLog(@"%ld", (long)i);
+            if (i == 3) {
+                JRActionSheetView *jr1 = [JRActionSheetView actionSheetViewWithTitle:@"123" message:@"22"];
+                [jr1 addJRSheetAction:[JRSheetAction sheetActionWithTitle:@"取消" style:JRAlertActionStyleCancel handler:^(JRSheetAction * _Nullable action) {
+
+                }]];
+                for (NSInteger i = 0; i < 10; i ++) {
+                    JRSheetAction *action1 = [JRSheetAction sheetActionWithTitle:@"test" style:(JRAlertActionStyleDefault) handler:^(JRSheetAction * _Nullable action) {
+                        NSLog(@"🎮🎮🎮🎮🎮%ld", (long)i);
+                    }];
+                    [jr1 addJRSheetAction:action1];
+                }
+                [jr1 show];
+            }
         }];
-        if (i == 3) {
-            [actionSheetView setSelectAlertAction:action];
-        }
         [actionSheetView addJRSheetAction:action];
     }
     [actionSheetView show];

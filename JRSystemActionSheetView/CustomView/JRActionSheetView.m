@@ -512,9 +512,9 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [self hiddenJRActionSheetView];
     JRSheetAction *alertAction = [self getDataSource][indexPath.row];
     alertAction.alarActionBlock(alertAction);
-    [self hiddenJRActionSheetView];
 }
 
 
