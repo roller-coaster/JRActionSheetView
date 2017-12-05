@@ -130,7 +130,6 @@
     _alaertAction = action;
     _titleLab.text = action.title;
     _titleLab.textColor = [JRAlertAction jr_coverJRAlertActionStyle:action.style];
-    if (action.style == JRAlertActionStyleDestructive) _titleLab.textColor = [UIColor redColor];
 //    [self setAccessoryType:UITableViewCellAccessoryNone];
 //    if (action.isSelect) [self setAccessoryType:UITableViewCellAccessoryCheckmark];
 }
@@ -354,7 +353,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
     [button setFrame:CGRectMake(JRActionSheetView_Default_Margin, height - JRActionSheetView_CancelBtn_Hight - JRActionSheetView_Default_Margin, width - JRActionSheetView_Default_Margin*2, JRActionSheetView_CancelBtn_Hight)];
     [button.titleLabel setFont:[UIFont boldSystemFontOfSize:18.0f]];
     [button setTitle:action.title forState:(UIControlStateNormal)];
-    [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [button setTitleColor:[JRAlertAction jr_coverJRAlertActionStyle:action.style] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(cancalButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
     [self addSubview:button];
     _cancelBtn = button;
