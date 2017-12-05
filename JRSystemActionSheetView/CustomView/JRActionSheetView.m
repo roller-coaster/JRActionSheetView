@@ -10,17 +10,17 @@
 
 #pragma mark
 #pragma mark ----JRAlertAction(start)----
-@interface JRAlertAction ()
+@interface JRSheetAction ()
 
-@property (copy, nonatomic) void(^alarActionBlock)(JRAlertAction * action);
+@property (copy, nonatomic) void(^alarActionBlock)(JRSheetAction * action);
 
 @property (assign, nonatomic) BOOL isSelect;
 @end
 
-@implementation JRAlertAction
+@implementation JRSheetAction
 
-+ (instancetype)alerActionWithTitle:(NSString *)title style:(JRAlertActionStyle)style handler:(void (^)(JRAlertAction * _Nullable))handler{
-    JRAlertAction *alerAction = [[JRAlertAction alloc] initWithTitle:title style:style];
++ (instancetype)sheetActionWithTitle:(NSString *)title style:(JRAlertActionStyle)style handler:(void (^)(JRSheetAction * _Nullable))handler{
+    JRSheetAction *alerAction = [[JRSheetAction alloc] initWithTitle:title style:style];
     alerAction.alarActionBlock = handler;
     return alerAction;
 }
@@ -110,8 +110,9 @@
 
 @property (nonatomic, weak, readonly) UILabel *titleLab;
 
-@property (nonatomic, readonly) JRAlertAction *alaertAction;
-- (void)setCellData:(JRAlertAction *)action;
+@property (nonatomic, readonly) JRSheetAction *alaertAction;
+
+- (void)setCellData:(JRSheetAction *)action;
 
 + (CGFloat)JRActionSheetViewTableViewCellForHeight;
 @end
@@ -126,10 +127,10 @@
     }return self;
 }
 
-- (void)setCellData:(JRAlertAction *)action{
+- (void)setCellData:(JRSheetAction *)action{
     _alaertAction = action;
     _titleLab.text = action.title;
-    _titleLab.textColor = [JRAlertAction jr_coverJRAlertActionStyle:action.style];
+    _titleLab.textColor = [JRSheetAction jr_coverJRAlertActionStyle:action.style];
 //    [self setAccessoryType:UITableViewCellAccessoryNone];
 //    if (action.isSelect) [self setAccessoryType:UITableViewCellAccessoryCheckmark];
 }
@@ -227,11 +228,11 @@ static JRActionSheetView *_onlyOneJRActionSheetView = nil;
 }
 
 #pragma mark 添加action
-- (void)addJRAlertAction:(JRAlertAction *)action{
+- (void)addJRSheetAction:(JRSheetAction *)action{
     NSMutableArray *muArr = [NSMutableArray arrayWithArray:self.alartActions];
     if (action) {
-        JRAlertAction *cancelAction = nil;
-        for (JRAlertAction *alertActtion in muArr) {
+        JRSheetAction *cancelAction = nil;
+        for (JRSheetAction *alertActtion in muArr) {
             if (alertActtion.style == JRAlertActionStyleCancel) {
                 cancelAction = alertActtion;
                 break;
@@ -339,13 +340,13 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
 
 }
 
-- (void)setSelectAlertAction:(JRAlertAction *)alertAction{
+- (void)setSelectAlertAction:(JRSheetAction *)alertAction{
     alertAction.isSelect = YES;
     _selectedAlertAction = alertAction;
 }
 #pragma mark - Private Methods
 #pragma mark 取消按钮
-- (void)createCancelButtonWith:(JRAlertAction *)action {
+- (void)createCancelButtonWith:(JRSheetAction *)action {
     CGFloat width = CGRectGetWidth(self.frame);
     CGFloat height = CGRectGetHeight(self.frame);
     UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -353,7 +354,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
     [button setFrame:CGRectMake(JRActionSheetView_Default_Margin, height - JRActionSheetView_CancelBtn_Hight - JRActionSheetView_Default_Margin, width - JRActionSheetView_Default_Margin*2, JRActionSheetView_CancelBtn_Hight)];
     [button.titleLabel setFont:[UIFont boldSystemFontOfSize:18.0f]];
     [button setTitle:action.title forState:(UIControlStateNormal)];
-    [button setTitleColor:[JRAlertAction jr_coverJRAlertActionStyle:action.style] forState:UIControlStateNormal];
+    [button setTitleColor:[JRSheetAction jr_coverJRAlertActionStyle:action.style] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(cancalButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
     [self addSubview:button];
     _cancelBtn = button;
@@ -463,7 +464,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
 #pragma mark 获取tableView数据源
 - (NSArray *)getDataSource {
     NSMutableArray *muArr = [NSMutableArray arrayWithCapacity:2];
-    for (JRAlertAction *alertAction in self.alartActions) {
+    for (JRSheetAction *alertAction in self.alartActions) {
         if (alertAction.style != JRAlertActionStyleCancel) {
             [muArr addObject:alertAction];
         }
@@ -500,7 +501,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
     if (!cell) {
         cell = [[JRActionSheetViewTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier];
     }
-    JRAlertAction *alertAction = [self getDataSource][indexPath.row];
+    JRSheetAction *alertAction = [self getDataSource][indexPath.row];
     [cell setCellData:alertAction];
     return cell;
 }
@@ -511,7 +512,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    JRAlertAction *alertAction = [self getDataSource][indexPath.row];
+    JRSheetAction *alertAction = [self getDataSource][indexPath.row];
     alertAction.alarActionBlock(alertAction);
     [self hiddenJRActionSheetView];
 }

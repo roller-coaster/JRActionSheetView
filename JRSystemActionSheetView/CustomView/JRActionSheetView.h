@@ -15,9 +15,9 @@ typedef NS_ENUM(NSInteger, JRAlertActionStyle) {
 };
 
 #pragma mark ----JRAlertAction(start)----
-@interface JRAlertAction : NSObject
+@interface JRSheetAction : NSObject
 
-+ (instancetype _Nullable )alerActionWithTitle:(nullable NSString *)title style:(JRAlertActionStyle)style handler:(void (^ __nullable)(JRAlertAction * _Nullable action))handler;
++ (instancetype _Nullable )sheetActionWithTitle:(nullable NSString *)title style:(JRAlertActionStyle)style handler:(void (^ __nullable)(JRSheetAction * _Nullable action))handler;
 @property (nullable, nonatomic, readonly) NSString *title;
 @property (nonatomic, readonly) JRAlertActionStyle style;
 
@@ -29,14 +29,14 @@ typedef NS_ENUM(NSInteger, JRAlertActionStyle) {
 + (instancetype _Nullable )actionSheetViewWithTitle:(nullable NSString *)title message:(nullable NSString *)message;
 
 /** 添加行 */
-- (void)addJRAlertAction:(JRAlertAction *_Nullable)action;
+- (void)addJRSheetAction:(JRSheetAction *_Nullable)action;
 
 /** 设置选择行 */
-- (void)setSelectAlertAction:(JRAlertAction *_Nullable)alertAction;
+- (void)setSelectAlertAction:(JRSheetAction *_Nullable)alertAction;
 
-@property (nonatomic, readonly) NSArray<JRAlertAction *> * _Nullable alartActions;
+@property (nonatomic, readonly) NSArray<JRSheetAction *> * _Nullable alartActions;
 
-@property (nonatomic, readonly) JRAlertAction * _Nullable selectedAlertAction;
+@property (nonatomic, readonly) JRSheetAction * _Nullable selectedAlertAction;
 /**
  显示view
  */

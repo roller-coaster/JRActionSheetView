@@ -23,17 +23,17 @@
 
 - (IBAction)showSimpleDemo:(id)sender {
     JRActionSheetView *actionSheetView = [JRActionSheetView actionSheetViewWithTitle:@"很多啊删掉吧技术部问问额外i加班费未v呃我基本vi额外v金额为吧额外能访问哦被我爸vi饿死v呃我i别u我不vi俄文版v额无比的vi俄文版vi俄文版vu额外iv被窝i北堤村额外iv被窝i吧v未必额外i吧vi饿唔吧vIE五百vi二维表iv被窝i" message:@"33333多啊删掉吧技术部问问额外i加班费未v呃我基本vi额外v金额为吧额外能访问哦被我爸vi饿死v呃我i别u我不vi俄文版v额无比的vi俄文版vi俄文版vu额外iv被窝i北堤村额外iv被窝i吧v未必额外i吧vi饿唔吧vIE五百vi二维表iv被窝i多啊删掉吧技术部问问额外i加班费未v呃我基本vi额外v金额为吧额外能访问哦被我爸vi饿死v呃我i别u我不vi俄文版v额无比的vi俄文版vi俄文版vu额外iv被窝i北堤村额外iv被窝i吧v未必额外i吧vi饿唔吧vIE五百vi二维表iv被窝i多啊删掉吧技术部问问额外i加班费未v呃我基本vi额外v金额为吧额外能访问哦被我爸vi饿死v呃我i别u我不vi俄文版v额无比的vi俄文版vi俄文版vu额外iv被窝i北堤村额外iv被窝i吧v未必额外i吧vi饿唔吧vIE五百vi二维表iv被窝i多啊删掉吧技术部问问额外i加班费未v呃我基本vi额外v金额为吧额外能访问哦被我爸vi饿死v呃我i别u我不vi俄文版v额无比的vi俄文版vi俄文版vu额外iv被窝i北堤村额外iv被窝i吧v未必额外i吧vi饿唔吧vIE五百vi二维表iv被窝i3333"];
-    [actionSheetView addJRAlertAction:[JRAlertAction alerActionWithTitle:@"222" style:(JRAlertActionStyleCancel) handler:^(JRAlertAction * _Nullable action) {
+    [actionSheetView addJRSheetAction:[JRSheetAction sheetActionWithTitle:@"222" style:(JRAlertActionStyleCancel) handler:^(JRSheetAction * _Nullable action) {
 
     }]];
     for (NSInteger i = 0; i < 10; i ++) {
-        JRAlertAction *action = [JRAlertAction alerActionWithTitle:@"test" style:(JRAlertActionStyleDefault) handler:^(JRAlertAction * _Nullable action) {
+        JRSheetAction *action = [JRSheetAction sheetActionWithTitle:@"test" style:(JRAlertActionStyleDefault) handler:^(JRSheetAction * _Nullable action) {
             NSLog(@"%ld", (long)i);
         }];
         if (i == 3) {
             [actionSheetView setSelectAlertAction:action];
         }
-        [actionSheetView addJRAlertAction:action];
+        [actionSheetView addJRSheetAction:action];
     }
     [actionSheetView show];
 
