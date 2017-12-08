@@ -10,5 +10,4 @@ s.ios.deployment_target = '7.0'
 s.source       = { :git => 'https://github.com/roller-coaster/JRActionSheetView.git', :tag => s.version, :submodules => true }
 s.requires_arc = true
 s.source_files = 'JRSystemActionSheetView/CustomView/*.{h,m}'
-
 end
