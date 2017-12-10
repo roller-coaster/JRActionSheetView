@@ -11,4 +11,5 @@ s.source       = { :git => 'https://github.com/roller-coaster/JRActionSheetView.
 s.requires_arc = true
 s.source_files = 'JRSystemActionSheetView/CustomView/*.{h,m}'
 # s.dependency 'SDWebImage', '>= 3.8.2'
+
 end
