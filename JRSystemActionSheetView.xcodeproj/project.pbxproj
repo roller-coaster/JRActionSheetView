@@ -14,9 +14,11 @@
 		66384F0D1FD4DA8A00F5669B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66384F0B1FD4DA8A00F5669B /* LaunchScreen.storyboard */; };
 		66384F101FD4DA8A00F5669B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66384F0F1FD4DA8A00F5669B /* main.m */; };
 		66384F1B1FD4DAA400F5669B /* JRActionSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66384F171FD4DAA400F5669B /* JRActionSheetView.m */; };
+		99F6182FD101C70077961732 /* libPods-JRSystemActionSheetView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AD03A5E65038590AE748038 /* libPods-JRSystemActionSheetView.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1AD03A5E65038590AE748038 /* libPods-JRSystemActionSheetView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JRSystemActionSheetView.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66384EFD1FD4DA8A00F5669B /* JRSystemActionSheetView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JRSystemActionSheetView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66384F001FD4DA8A00F5669B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		66384F011FD4DA8A00F5669B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -29,6 +31,8 @@
 		66384F0F1FD4DA8A00F5669B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		66384F171FD4DAA400F5669B /* JRActionSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRActionSheetView.m; sourceTree = "<group>"; };
 		66384F191FD4DAA400F5669B /* JRActionSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRActionSheetView.h; sourceTree = "<group>"; };
+		8ED793D85BEDD06F4913DD79 /* Pods-JRSystemActionSheetView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JRSystemActionSheetView.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JRSystemActionSheetView/Pods-JRSystemActionSheetView.debug.xcconfig"; sourceTree = "<group>"; };
+		CBD6621EBF6C95A839EE2703 /* Pods-JRSystemActionSheetView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JRSystemActionSheetView.release.xcconfig"; path = "Pods/Target Support Files/Pods-JRSystemActionSheetView/Pods-JRSystemActionSheetView.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99F6182FD101C70077961732 /* libPods-JRSystemActionSheetView.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,6 +52,8 @@
 			children = (
 				66384EFF1FD4DA8A00F5669B /* JRSystemActionSheetView */,
 				66384EFE1FD4DA8A00F5669B /* Products */,
+				B9C8A7DEC4D573FC99F562FC /* Pods */,
+				88639A26CF395C87255F7D92 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -84,6 +91,23 @@
 			path = CustomView;
 			sourceTree = "<group>";
 		};
+		88639A26CF395C87255F7D92 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1AD03A5E65038590AE748038 /* libPods-JRSystemActionSheetView.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B9C8A7DEC4D573FC99F562FC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8ED793D85BEDD06F4913DD79 /* Pods-JRSystemActionSheetView.debug.xcconfig */,
+				CBD6621EBF6C95A839EE2703 /* Pods-JRSystemActionSheetView.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -91,9 +115,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66384F131FD4DA8A00F5669B /* Build configuration list for PBXNativeTarget "JRSystemActionSheetView" */;
 			buildPhases = (
+				166FE902EE557EA9E8847439 /* [CP] Check Pods Manifest.lock */,
 				66384EF91FD4DA8A00F5669B /* Sources */,
 				66384EFA1FD4DA8A00F5669B /* Frameworks */,
 				66384EFB1FD4DA8A00F5669B /* Resources */,
+				674FD876D1A9077D5C573F87 /* [CP] Embed Pods Frameworks */,
+				C538F932CB29C1649030D13B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -149,6 +176,57 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		166FE902EE557EA9E8847439 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-JRSystemActionSheetView-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		674FD876D1A9077D5C573F87 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JRSystemActionSheetView/Pods-JRSystemActionSheetView-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C538F932CB29C1649030D13B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JRSystemActionSheetView/Pods-JRSystemActionSheetView-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		66384EF91FD4DA8A00F5669B /* Sources */ = {
@@ -290,6 +368,7 @@
 		};
 		66384F141FD4DA8A00F5669B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8ED793D85BEDD06F4913DD79 /* Pods-JRSystemActionSheetView.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -304,6 +383,7 @@
 		};
 		66384F151FD4DA8A00F5669B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CBD6621EBF6C95A839EE2703 /* Pods-JRSystemActionSheetView.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
