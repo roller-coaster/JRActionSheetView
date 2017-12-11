@@ -14,6 +14,7 @@
 		66384F0D1FD4DA8A00F5669B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66384F0B1FD4DA8A00F5669B /* LaunchScreen.storyboard */; };
 		66384F101FD4DA8A00F5669B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66384F0F1FD4DA8A00F5669B /* main.m */; };
 		66384F1B1FD4DAA400F5669B /* JRActionSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66384F171FD4DAA400F5669B /* JRActionSheetView.m */; };
+		665E0A211FDE166900FA9B9B /* myTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 665E0A201FDE166900FA9B9B /* myTestViewController.m */; };
 		99F6182FD101C70077961732 /* libPods-JRSystemActionSheetView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AD03A5E65038590AE748038 /* libPods-JRSystemActionSheetView.a */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,8 @@
 		66384F0F1FD4DA8A00F5669B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		66384F171FD4DAA400F5669B /* JRActionSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRActionSheetView.m; sourceTree = "<group>"; };
 		66384F191FD4DAA400F5669B /* JRActionSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRActionSheetView.h; sourceTree = "<group>"; };
+		665E0A1F1FDE166900FA9B9B /* myTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = myTestViewController.h; sourceTree = "<group>"; };
+		665E0A201FDE166900FA9B9B /* myTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = myTestViewController.m; sourceTree = "<group>"; };
 		8ED793D85BEDD06F4913DD79 /* Pods-JRSystemActionSheetView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JRSystemActionSheetView.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JRSystemActionSheetView/Pods-JRSystemActionSheetView.debug.xcconfig"; sourceTree = "<group>"; };
 		CBD6621EBF6C95A839EE2703 /* Pods-JRSystemActionSheetView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JRSystemActionSheetView.release.xcconfig"; path = "Pods/Target Support Files/Pods-JRSystemActionSheetView/Pods-JRSystemActionSheetView.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -68,6 +71,7 @@
 		66384EFF1FD4DA8A00F5669B /* JRSystemActionSheetView */ = {
 			isa = PBXGroup;
 			children = (
+				665E0A1E1FDE164600FA9B9B /* ViewController */,
 				66384F161FD4DAA400F5669B /* CustomView */,
 				66384F001FD4DA8A00F5669B /* AppDelegate.h */,
 				66384F011FD4DA8A00F5669B /* AppDelegate.m */,
@@ -90,6 +94,15 @@
 			);
 			path = CustomView;
 			sourceTree = "<group>";
+		};
+		665E0A1E1FDE164600FA9B9B /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				665E0A1F1FDE166900FA9B9B /* myTestViewController.h */,
+				665E0A201FDE166900FA9B9B /* myTestViewController.m */,
+			);
+			path = ViewController;
+			sourceTree = SOURCE_ROOT;
 		};
 		88639A26CF395C87255F7D92 /* Frameworks */ = {
 			isa = PBXGroup;
@@ -236,6 +249,7 @@
 				66384F1B1FD4DAA400F5669B /* JRActionSheetView.m in Sources */,
 				66384F051FD4DA8A00F5669B /* ViewController.m in Sources */,
 				66384F101FD4DA8A00F5669B /* main.m in Sources */,
+				665E0A211FDE166900FA9B9B /* myTestViewController.m in Sources */,
 				66384F021FD4DA8A00F5669B /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
