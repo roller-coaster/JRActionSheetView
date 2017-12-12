@@ -196,8 +196,11 @@ CGFloat const JRActionSheetView_Default_CornerRadius = 10.0f;
 @property (nonatomic, weak) UITextView *textView;
 
 @property (nonatomic, weak) UIView *lineView;
-/** 标题view和tableView容器 */
-@property (nonatomic, weak) UIView *backgroundView;
+
+/** 容器 */
+@property (nonatomic, weak) UIView *contentView;
+
+@property (nonatomic, weak) UIView *subContentView;
 
 @end
 
@@ -211,7 +214,7 @@ static JRActionSheetView *_onlyOneJRActionSheetView = nil;
     if (!_onlyOneJRActionSheetView) {
         JRActionSheetView *customView = [[JRActionSheetView alloc] initWithFrame:[UIScreen mainScreen].bounds title:title message:message];
         customView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        customView.backgroundColor = [UIColor colorWithWhite:0.5f alpha:0.8f];
+        customView.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.0f];
         _onlyOneJRActionSheetView = customView;
     }
     return _onlyOneJRActionSheetView;
@@ -221,9 +224,11 @@ static JRActionSheetView *_onlyOneJRActionSheetView = nil;
 - (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title message:(NSString *)message{
     self = [super initWithFrame:frame];
     if (self) {
+        [self createBackgroundView];
+        [self createSubContentView];
         _title = title;
         _message = message;
-        [self createBackgroundView];
+        [self createTextView];
     }return self;
 }
 
@@ -276,7 +281,15 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
         UIWindow * window=[[[UIApplication sharedApplication] delegate] window];
         [window addSubview:self];
     }
+    CGRect backgroudViewF = _contentView.frame;
+    backgroudViewF.origin.y = CGRectGetHeight(self.frame)/3;
+    [UIView animateWithDuration:0.25f delay:0.0f options:(UIViewAnimationOptionCurveLinear) animations:^{
+        self.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.7987f];
+        _contentView.frame = backgroudViewF;
+        _contentView.frame = backgroudViewF;
+    } completion:^(BOOL finished) {
 
+    }];
 }
 
 - (void)layoutSubviews{
@@ -287,57 +300,49 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
     }
     CGFloat width = MIN(CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
     CGFloat height = CGRectGetHeight(self.frame) - iPhoneXSafe_bottom;
-    CGRect cancalBtnF = CGRectZero;
-    CGRect myTableViewF = CGRectZero;
-    CGRect backgroundF = CGRectMake(JRActionSheetView_Default_Margin, height/3, width - JRActionSheetView_Default_Margin*2, height*2/3-JRActionSheetView_Default_Margin);
-    CGRect topViewF = CGRectZero;
-    CGFloat topViewHeight = [self heightForHeaderViewForSection:width - JRActionSheetView_Default_Margin*2];
-    if (_cancelBtn){
-        cancalBtnF = CGRectMake(JRActionSheetView_Default_Margin, height - JRActionSheetView_CancelBtn_Hight - JRActionSheetView_Default_Margin, width - JRActionSheetView_Default_Margin*2, JRActionSheetView_CancelBtn_Hight);
+    _contentView.frame = CGRectMake(JRActionSheetView_Default_Margin, height/3, width-JRActionSheetView_Default_Margin*2, height*2/3-JRActionSheetView_Default_Margin);
+    [_contentView setCenter:CGPointMake(CGRectGetWidth(self.frame)/2, _contentView.center.y)];
+    CGRect backgroudViewF = _contentView.frame;
+
+
+    CGRect cancalBtnF = _cancelBtn.frame;
+    if (_cancelBtn) {
+        cancalBtnF = CGRectMake(0, CGRectGetHeight(backgroudViewF) - JRActionSheetView_CancelBtn_Hight - JRActionSheetView_Default_Margin, CGRectGetWidth(backgroudViewF), JRActionSheetView_CancelBtn_Hight);
         [_cancelBtn setFrame:cancalBtnF];
         _cancelBtn.layer.cornerRadius = JRActionSheetView_Default_CornerRadius;
-        /** 减去按钮的高度 */
-        backgroundF.size.height -= (JRActionSheetView_CancelBtn_Hight+JRActionSheetView_Default_Margin);
-        [_cancelBtn setCenter:CGPointMake(CGRectGetWidth(self.frame)/2, _cancelBtn.center.y)];
     }
 
-    if (_backgroundView) {
-        CGFloat beforeHeight = CGRectGetHeight(backgroundF);
-        if (_textView) {
-            _textView.scrollEnabled = NO;
-            if (beforeHeight/2 < topViewHeight) {
-                topViewHeight = beforeHeight/2;
-                _textView.scrollEnabled = YES;
-            }
-            topViewF = CGRectMake(0, 0,CGRectGetWidth(backgroundF), topViewHeight);
-            [_textView setFrame:topViewF];
+    if (!_myTableView && !_textView) return;
+    CGFloat subContentViewHeight_Max = CGRectGetMinY(cancalBtnF) - JRActionSheetView_Default_Margin;
+    CGFloat textViewHeight = [self heightForHeaderViewForSection:CGRectGetWidth(backgroudViewF)];
+    CGRect textViewF = CGRectZero;
+    CGRect myTableViewF = CGRectZero;
+    if (_textView) {
+        _textView.scrollEnabled = NO;
+        if (subContentViewHeight_Max/2 < textViewHeight) {
+            textViewHeight = subContentViewHeight_Max/2;
+            _textView.scrollEnabled = YES;
         }
-        if (_myTableView) {
-            if (_textView) {
-                [_lineView setFrame:CGRectMake(0, CGRectGetMaxY(_textView.frame), CGRectGetWidth(backgroundF), .5f)];
-                _lineView.hidden = NO;
-            }
-            /** cell的总高度 */
-            CGFloat cellTotalHeight = [self getDataSource].count * JRActionSheetView_CancelBtn_Hight;
-            BOOL isScroll = YES;
-            /** tableView实际高度 */
-            CGFloat myTableViewHeight = CGRectGetHeight(backgroundF) - topViewHeight;
-            if (myTableViewHeight > cellTotalHeight) {
-                myTableViewHeight = cellTotalHeight;
-                isScroll = NO;
-            }
-            myTableViewF = CGRectMake(0, CGRectGetMaxY(topViewF)+CGRectGetHeight(_lineView.frame), CGRectGetWidth(backgroundF), myTableViewHeight-CGRectGetHeight(_lineView.frame));
-            _myTableView.scrollEnabled = isScroll;
-            [_myTableView setFrame:myTableViewF];
-        }
-        backgroundF.size.height = topViewHeight + CGRectGetHeight(myTableViewF);
-        backgroundF.origin.y += beforeHeight - CGRectGetHeight(backgroundF);
-        [_backgroundView setFrame:backgroundF];
-        _backgroundView.layer.masksToBounds = YES;
-        [_backgroundView.layer setCornerRadius:JRActionSheetView_Default_CornerRadius];
-        [_backgroundView setCenter:CGPointMake(CGRectGetWidth(self.frame)/2, _backgroundView.center.y)];
+        textViewF = CGRectMake(0, 0, CGRectGetWidth(backgroudViewF), textViewHeight);
     }
-
+    if (_myTableView) {
+        /** cell的总高度 */
+        CGFloat cellTotalHeight = [self getDataSource].count * JRActionSheetView_CancelBtn_Hight;
+        BOOL isScroll = YES;
+        /** tableView实际高度 */
+        CGFloat myTableViewHeight = subContentViewHeight_Max - textViewHeight;
+        if (myTableViewHeight > cellTotalHeight) {
+            myTableViewHeight = cellTotalHeight;
+            isScroll = NO;
+        }
+        _myTableView.scrollEnabled = isScroll;
+        myTableViewF = CGRectMake(0, textViewHeight+1, CGRectGetWidth(backgroudViewF), myTableViewHeight-1);
+    }
+    _subContentView.frame = CGRectMake(0, subContentViewHeight_Max-CGRectGetHeight(myTableViewF)-CGRectGetHeight(textViewF), CGRectGetWidth(backgroudViewF), CGRectGetHeight(textViewF)+CGRectGetHeight(myTableViewF));
+    _subContentView.layer.masksToBounds = YES;
+    _subContentView.layer.cornerRadius = JRActionSheetView_Default_CornerRadius;
+    _myTableView.frame = myTableViewF;
+    _textView.frame = textViewF;
 }
 
 - (void)setSelectAlertAction:(JRSheetAction *)alertAction{
@@ -347,16 +352,16 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
 #pragma mark - Private Methods
 #pragma mark 取消按钮
 - (void)createCancelButtonWith:(JRSheetAction *)action {
-    CGFloat width = CGRectGetWidth(self.frame);
-    CGFloat height = CGRectGetHeight(self.frame);
+    CGFloat width = CGRectGetWidth(_contentView.frame);
+    CGFloat height = CGRectGetHeight(_contentView.frame);
     UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
     [button setBackgroundColor:[UIColor whiteColor]];
-    [button setFrame:CGRectMake(JRActionSheetView_Default_Margin, height - JRActionSheetView_CancelBtn_Hight - JRActionSheetView_Default_Margin, width - JRActionSheetView_Default_Margin*2, JRActionSheetView_CancelBtn_Hight)];
+    [button setFrame:CGRectMake(0, height - JRActionSheetView_CancelBtn_Hight - JRActionSheetView_Default_Margin, width, JRActionSheetView_CancelBtn_Hight)];
     [button.titleLabel setFont:[UIFont boldSystemFontOfSize:18.0f]];
     [button setTitle:action.title forState:(UIControlStateNormal)];
     [button setTitleColor:[JRSheetAction jr_coverJRAlertActionStyle:action.style] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(cancalButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
-    [self addSubview:button];
+    [_contentView addSubview:button];
     _cancelBtn = button;
 
 }
@@ -375,7 +380,8 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
 
 #pragma mark UIGestureRecognizerDelegate
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {//判断如果点击的是tableView的cell，就把手势给关闭了
+    id obj = NSStringFromClass([touch.view class]);
+    if ([obj isEqualToString:@"UITableViewCellContentView"] || [obj isEqualToString:@"UITextView"]) {//判断如果点击的是tableView的cell，就把手势给关闭了
         return NO;//关闭手势
     }//否则手势存在
     return YES;
@@ -384,40 +390,40 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
 
 #pragma mark 移除视图
 - (void)hiddenJRActionSheetView{
-    [UIView animateWithDuration:0.5f animations:^{
+    CGRect backgroudViewF = _contentView.frame;
+    backgroudViewF.origin.y = CGRectGetHeight(self.frame);
+    [UIView animateWithDuration:0.25f delay:0.0f options:(UIViewAnimationOptionCurveLinear) animations:^{
+        self.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:.0f];
+        _contentView.frame = backgroudViewF;
+    } completion:^(BOOL finished) {
         [self removeFromSuperview];
         _onlyOneJRActionSheetView = nil;
-//        [_jrActionSheetViewArrs removeObject:self];
-//        JRActionSheetView *actionSheetView = [_jrActionSheetViewArrs lastObject];
-//        [UIView animateWithDuration:0.15f animations:^{
-//            if (actionSheetView) actionSheetView.hidden = NO;
-//        }];
     }];
 }
 
 #pragma mark 创建容器
 - (void)createBackgroundView{
-    if (!_backgroundView) {
+    if (!_contentView) {
         CGFloat width = CGRectGetWidth(self.frame);
         CGFloat height = CGRectGetHeight(self.frame);
-        UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(JRActionSheetView_Default_Margin, height/2, width - JRActionSheetView_Default_Margin*2, height/2-JRActionSheetView_Default_Margin)];
-        customView.backgroundColor = [UIColor whiteColor];
+        UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(JRActionSheetView_Default_Margin, height, width - JRActionSheetView_Default_Margin*2, height*2/3-JRActionSheetView_Default_Margin)];
+        customView.backgroundColor = [UIColor clearColor];
         [self addSubview:customView];
-        _backgroundView = customView;
+        _contentView = customView;
 
-        UIView *custmLineView = [UIView new];
-        custmLineView.backgroundColor = [UIColor grayColor];
-        custmLineView.hidden = YES;
-        [_backgroundView addSubview:custmLineView];
-        _lineView = custmLineView;
-        [self createTextView];
+//        UIView *custmLineView = [UIView new];
+//        custmLineView.backgroundColor = [UIColor grayColor];
+//        custmLineView.hidden = YES;
+//        [_contentView addSubview:custmLineView];
+//        _lineView = custmLineView;
+//        [self createTextView];
     }
 }
 
 #pragma mark 创建标题View
 - (void)createTextView{
     if (_title || _message) {
-        UITextView *customTextView = [[UITextView alloc] initWithFrame:CGRectMake(JRActionSheetView_Default_Margin, 0, CGRectGetWidth(_backgroundView.frame), 100)];
+        UITextView *customTextView = [[UITextView alloc] initWithFrame:CGRectZero];
         customTextView.font = [UIFont boldSystemFontOfSize:15.0f];
         if (_title.length > 0) customTextView.text = [NSString stringWithFormat:@"%@ \n", _title];
         customTextView.textColor = [UIColor grayColor];
@@ -426,7 +432,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
         customTextView.textAlignment = NSTextAlignmentCenter;
         customTextView.backgroundColor = [UIColor whiteColor];
         _textView = customTextView;
-        [_backgroundView addSubview:_textView];
+        [_subContentView addSubview:_textView];
         NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
         paragraph.alignment = NSTextAlignmentCenter;
         if (_message.length > 0)[_textView.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", _message] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor grayColor], NSParagraphStyleAttributeName:paragraph}]];
@@ -440,7 +446,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
         customTableView.delegate = self;
         customTableView.dataSource = self;
         customTableView.backgroundColor = [UIColor whiteColor];
-        [_backgroundView addSubview:customTableView];
+        [_subContentView addSubview:customTableView];
         _myTableView = customTableView;
         /** 这个设置iOS9以后才有，主要针对iPad，不设置的话，分割线左侧空出很多 */
         if ([_myTableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
@@ -458,6 +464,17 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
         if (@available(iOS 11.0, *)) {
             [_myTableView setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentNever];
         }
+    }
+}
+
+#pragma mark 创建子容器
+- (void)createSubContentView{
+    if (!_subContentView) {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
+        view.backgroundColor = [UIColor grayColor];
+        view.userInteractionEnabled = YES;
+        [_contentView addSubview:view];
+        _subContentView = view;
     }
 }
 
@@ -490,6 +507,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
     }
     return height;
 }
+
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self getDataSource].count;

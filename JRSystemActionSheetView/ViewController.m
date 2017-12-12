@@ -23,7 +23,22 @@
 }
 
 - (IBAction)showSimpleDemo:(id)sender {
-    JRActionSheetView *actionSheetView = [JRActionSheetView actionSheetViewWithTitle:@"很多啊删掉吧技术部问问额外i加班费未v呃我基本vi额外v金额为吧额外能访问哦被我爸vi饿死v呃我i别u我不vi俄文版v额无比的vi俄文版vi俄文版vu额外iv被窝i北堤村额外iv被窝i吧v未必额外i吧vi饿唔吧vIE五百vi二维表iv被窝i" message:@"33333多啊删掉吧技术部问问额外i加班费未v呃我基本vi额外v金额为吧额外能访问哦被我爸vi饿死v呃我i别u我不vi俄文版v额无比的vi俄文版vi俄文版vu额外iv被窝i北堤村额外iv被窝i吧v未必额外i吧vi饿唔吧vIE五百vi二维表iv被窝i多啊删掉吧技术部问问额外i加班费未v呃我基本vi额外v金额为吧额外能访问哦被我爸vi饿死v呃我i别u我不vi俄文版v额无比的vi俄文版vi俄文版vu额外iv被窝i北堤村额外iv被窝i吧v未必额外i吧vi饿唔吧vIE五百vi二维表iv被窝i多啊删掉吧技术部问问额外i加班费未v呃我基本vi额外v金额为吧额外能访问哦被我爸vi饿死v呃我i别u我不vi俄文版v额无比的vi俄文版vi俄文版vu额外iv被窝i北堤村额外iv被窝i吧v未必额外i吧vi饿唔吧vIE五百vi二维表iv被窝i多啊删掉吧技术部问问额外i加班费未v呃我基本vi额外v金额为吧额外能访问哦被我爸vi饿死v呃我i别u我不vi俄文版v额无比的vi俄文版vi俄文版vu额外iv被窝i北堤村额外iv被窝i吧v未必额外i吧vi饿唔吧vIE五百vi二维表iv被窝i3333"];
+
+//    UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:@"123" message:@"223" preferredStyle:(UIAlertControllerStyleActionSheet)];
+//    [alertCon addAction:[UIAlertAction actionWithTitle:@"22" style:(UIAlertActionStyleCancel) handler:^(UIAlertAction * _Nonnull action) {
+//
+//    }]];
+//    for (NSInteger i = 0; i < 5; i ++) {
+//        [alertCon addAction:[UIAlertAction actionWithTitle:@"22" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+//
+//        }]];
+//    }
+//    [alertCon addAction:[UIAlertAction actionWithTitle:@"22" style:(UIAlertActionStyleDestructive) handler:^(UIAlertAction * _Nonnull action) {
+//
+//    }]];
+//    [self.navigationController presentViewController:alertCon animated:YES completion:nil];
+//    return;
+    JRActionSheetView *actionSheetView = [JRActionSheetView actionSheetViewWithTitle:@"很多被窝i" message:@"堤村"];
     [actionSheetView addJRSheetAction:[JRSheetAction sheetActionWithTitle:@"222" style:(JRAlertActionStyleCancel) handler:^(JRSheetAction * _Nullable action) {
 
     }]];
