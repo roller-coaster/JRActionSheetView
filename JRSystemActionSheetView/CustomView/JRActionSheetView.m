@@ -367,8 +367,16 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
 }
 
 - (void)cancalButtonAction{
-    [self hiddenJRActionSheetView];
-
+    JRSheetAction *cancelAction = nil;
+    for (JRSheetAction *alertActtion in self.alartActions) {
+        if (alertActtion.style == JRAlertActionStyleCancel) {
+            cancelAction = alertActtion;
+            break;
+        }
+    }
+    [self hiddenJRActionSheetView:^(BOOL finished) {
+        if (cancelAction) cancelAction.alarActionBlock(cancelAction);
+    }];
 }
 
 #pragma mark 点击
@@ -389,7 +397,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
 
 
 #pragma mark 移除视图
-- (void)hiddenJRActionSheetView{
+- (void)hiddenJRActionSheetView:(void(^)(BOOL finished))completion{
     CGRect backgroudViewF = _contentView.frame;
     backgroudViewF.origin.y = CGRectGetHeight(self.frame);
     [UIView animateWithDuration:0.25f delay:0.0f options:(UIViewAnimationOptionCurveLinear) animations:^{
@@ -398,6 +406,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
         _onlyOneJRActionSheetView = nil;
+        if (completion) completion(YES);
     }];
 }
 
@@ -530,9 +539,11 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self hiddenJRActionSheetView];
-    JRSheetAction *alertAction = [self getDataSource][indexPath.row];
-    alertAction.alarActionBlock(alertAction);
+    __weak typeof(self)weakSelf = self;
+    [self hiddenJRActionSheetView:^(BOOL finished) {
+        JRSheetAction *alertAction = [weakSelf getDataSource][indexPath.row];
+        alertAction.alarActionBlock(alertAction);
+    }];
 }
 
 
