@@ -245,7 +245,7 @@ static JRActionSheetView *_onlyOneJRActionSheetView = nil;
         }
         if (cancelAction) {
             if (action.style == JRAlertActionStyleCancel) {
-                NSAssert(NO, @"卧槽，不能添加2个cancel");
+                NSAssert(NO, @"不能添加2个cancel");
             }
         } else {
             if (action.style == JRAlertActionStyleCancel) {
@@ -275,12 +275,10 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
 //    }
     if (_myTableView) [_myTableView reloadData];
     UIView *keyBoardView = [UIView jr_findKeyboardView];
-    if(keyBoardView){
-        [keyBoardView addSubview:self];
-    }else{
-        UIWindow * window=[[[UIApplication sharedApplication] delegate] window];
-        [window addSubview:self];
-    }
+    /** 有键盘先收起键盘再弹出 */
+    if(keyBoardView) [keyBoardView setHidden:YES];
+    UIWindow * window=[[[UIApplication sharedApplication] delegate] window];
+    [window addSubview:self];
     CGRect backgroudViewF = _contentView.frame;
     backgroudViewF.origin.y = CGRectGetHeight(self.frame)/3;
     [UIView animateWithDuration:0.25f delay:0.0f options:(UIViewAnimationOptionCurveLinear) animations:^{
