@@ -334,7 +334,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
             isScroll = NO;
         }
         _myTableView.scrollEnabled = isScroll;
-        myTableViewF = CGRectMake(0, textViewHeight+1, CGRectGetWidth(backgroudViewF), myTableViewHeight-1);
+        myTableViewF = CGRectMake(0, textViewHeight+.4f, CGRectGetWidth(backgroudViewF), myTableViewHeight-.4f);
     }
     _subContentView.frame = CGRectMake(0, subContentViewHeight_Max-CGRectGetHeight(myTableViewF)-CGRectGetHeight(textViewF), CGRectGetWidth(backgroudViewF), CGRectGetHeight(textViewF)+CGRectGetHeight(myTableViewF));
     _subContentView.layer.masksToBounds = YES;
@@ -478,7 +478,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
 - (void)createSubContentView{
     if (!_subContentView) {
         UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
-        view.backgroundColor = [UIColor grayColor];
+        view.backgroundColor = [UIColor lightGrayColor];
         view.userInteractionEnabled = YES;
         [_contentView addSubview:view];
         _subContentView = view;
