@@ -41,9 +41,7 @@
     JRActionSheetView *actionSheetView = [JRActionSheetView actionSheetViewWithTitle:@"很多被窝i" message:@"堤村"];
     [actionSheetView addJRSheetAction:[JRSheetAction sheetActionWithTitle:@"222" style:(JRAlertActionStyleCancel) handler:^(JRSheetAction * _Nullable action) {
         JRActionSheetView *jr1 = [JRActionSheetView actionSheetViewWithTitle:@"取消" message:@"我是取消弹出来的"];
-        [jr1 addJRSheetAction:[JRSheetAction sheetActionWithTitle:@"取消" style:JRAlertActionStyleCancel handler:^(JRSheetAction * _Nullable action) {
-
-        }]];
+        [jr1 addJRSheetAction:[JRSheetAction sheetActionWithTitle:@"取消" style:JRAlertActionStyleCancel handler:nil]];
         for (NSInteger i = 0; i < 10; i ++) {
             JRSheetAction *action1 = [JRSheetAction sheetActionWithTitle:@"test" style:(JRAlertActionStyleDefault) handler:^(JRSheetAction * _Nullable action) {
                 NSLog(@"🎮🎮🎮🎮%ld", (long)i);

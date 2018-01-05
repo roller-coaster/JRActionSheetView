@@ -373,7 +373,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
         }
     }
     [self hiddenJRActionSheetView:^(BOOL finished) {
-        if (cancelAction) cancelAction.alarActionBlock(cancelAction);
+        if (cancelAction && cancelAction.alarActionBlock) cancelAction.alarActionBlock(cancelAction);
     }];
 }
 
@@ -540,7 +540,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
     __weak typeof(self)weakSelf = self;
     [self hiddenJRActionSheetView:^(BOOL finished) {
         JRSheetAction *alertAction = [weakSelf getDataSource][indexPath.row];
-        alertAction.alarActionBlock(alertAction);
+        if (alertAction.alarActionBlock) alertAction.alarActionBlock(alertAction);
     }];
 }
 
