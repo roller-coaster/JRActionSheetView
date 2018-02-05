@@ -38,7 +38,7 @@
 //    }]];
 //    [self.navigationController presentViewController:alertCon animated:YES completion:nil];
 //    return;
-    JRActionSheetView *actionSheetView = [JRActionSheetView actionSheetViewWithTitle:@"很多被窝i" message:@"堤村"];
+    JRActionSheetView *actionSheetView = [JRActionSheetView actionSheetViewWithTitle:@"很多被窝" message:@"堤村"];
     [actionSheetView addJRSheetAction:[JRSheetAction sheetActionWithTitle:@"222" style:(JRAlertActionStyleCancel) handler:^(JRSheetAction * _Nullable action) {
         JRActionSheetView *jr1 = [JRActionSheetView actionSheetViewWithTitle:@"取消" message:@"我是取消弹出来的"];
         [jr1 addJRSheetAction:[JRSheetAction sheetActionWithTitle:@"取消" style:JRAlertActionStyleCancel handler:nil]];
