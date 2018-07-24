@@ -202,6 +202,8 @@ CGFloat const JRActionSheetView_Default_CornerRadius = 10.0f;
 
 @property (nonatomic, weak) UIView *subContentView;
 
+@property (nonatomic, strong) NSMutableArray *defaultArrs;
+
 @end
 
 @implementation JRActionSheetView
@@ -224,11 +226,15 @@ static JRActionSheetView *_onlyOneJRActionSheetView = nil;
 - (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title message:(NSString *)message{
     self = [super initWithFrame:frame];
     if (self) {
+        _defaultArrs = @[].mutableCopy;
         [self createBackgroundView];
         [self createSubContentView];
         _title = title;
         _message = message;
         [self createTextView];
+        /** 创建tableView滚动视图 */
+        [self createMyTableView];
+        [self addTapGesture];
     }return self;
 }
 
@@ -236,29 +242,43 @@ static JRActionSheetView *_onlyOneJRActionSheetView = nil;
 - (void)addJRSheetAction:(JRSheetAction *)action{
     NSMutableArray *muArr = [NSMutableArray arrayWithArray:self.alartActions];
     if (action) {
-        JRSheetAction *cancelAction = nil;
-        for (JRSheetAction *alertActtion in muArr) {
-            if (alertActtion.style == JRAlertActionStyleCancel) {
-                cancelAction = alertActtion;
-                break;
+        if (action.style == JRAlertActionStyleCancel) {
+            for (JRSheetAction *cancelAction in self.alartActions) {
+                if (cancelAction.style == JRAlertActionStyleCancel) {
+                    if ([muArr containsObject:cancelAction]) {
+                        [muArr removeObject:cancelAction];
+                    }
+                    break;
+                }
             }
-        }
-        if (cancelAction) {
-            if (action.style == JRAlertActionStyleCancel) {
-                NSAssert(NO, @"不能添加2个cancel");
-            }
+            [self createCancelButtonWith:action];
         } else {
-            if (action.style == JRAlertActionStyleCancel) {
-                [self createCancelButtonWith:action];
-                [self addTapGesture];
-            }
+            [_defaultArrs addObject:action];
         }
         [muArr addObject:action];
-        /** 创建tableView滚动视图 */
-        [self createMyTableView];
     }
     _alartActions = [muArr copy];
 }
+
+- (void)insertJRSheetAction:(JRSheetAction *)action atIndex:(NSUInteger)index {
+    if (action) {
+        if (![_defaultArrs containsObject:action] && action.style != JRAlertActionStyleCancel) {
+            NSMutableArray *muArr = [NSMutableArray arrayWithArray:self.alartActions];
+            [muArr addObject:action];
+            if (index > _defaultArrs.count) {
+                index = _defaultArrs.count;
+            }
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+            if (_myTableView) {
+                [_myTableView beginUpdates];
+                [_defaultArrs insertObject:action atIndex:index];
+                [_myTableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:(UITableViewRowAnimationNone)];
+                [_myTableView endUpdates];
+            }
+        }
+    }
+}
+
 
 /** 视图堆栈 */
 static NSMutableArray *_jrActionSheetViewArrs = nil;
@@ -273,7 +293,9 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
 //            continue;
 //        }
 //    }
-    if (_myTableView) [_myTableView reloadData];
+    if (_myTableView) {
+        [_myTableView reloadData];
+    }
     UIView *keyBoardView = [UIView jr_findKeyboardView];
     /** 有键盘先收起键盘再弹出 */
     if(keyBoardView) [keyBoardView setHidden:YES];
@@ -343,25 +365,26 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
     _textView.frame = textViewF;
 }
 
-- (void)setSelectAlertAction:(JRSheetAction *)alertAction{
-    alertAction.isSelect = YES;
-    _selectedAlertAction = alertAction;
-}
+//- (void)setSelectAlertAction:(JRSheetAction *)alertAction{
+//    alertAction.isSelect = YES;
+//    _selectedAlertAction = alertAction;
+//}
 #pragma mark - Private Methods
 #pragma mark 取消按钮
 - (void)createCancelButtonWith:(JRSheetAction *)action {
-    CGFloat width = CGRectGetWidth(_contentView.frame);
-    CGFloat height = CGRectGetHeight(_contentView.frame);
-    UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    [button setBackgroundColor:[UIColor whiteColor]];
-    [button setFrame:CGRectMake(0, height - JRActionSheetView_CancelBtn_Hight - JRActionSheetView_Default_Margin, width, JRActionSheetView_CancelBtn_Hight)];
-    [button.titleLabel setFont:[UIFont boldSystemFontOfSize:18.0f]];
-    [button setTitle:action.title forState:(UIControlStateNormal)];
-    [button setTitleColor:[JRSheetAction jr_coverJRAlertActionStyle:action.style] forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(cancalButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
-    [_contentView addSubview:button];
-    _cancelBtn = button;
-
+    if (!_cancelBtn) {
+        CGFloat width = CGRectGetWidth(_contentView.frame);
+        CGFloat height = CGRectGetHeight(_contentView.frame);
+        UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        [button setBackgroundColor:[UIColor whiteColor]];
+        [button setFrame:CGRectMake(0, height - JRActionSheetView_CancelBtn_Hight - JRActionSheetView_Default_Margin, width, JRActionSheetView_CancelBtn_Hight)];
+        [button.titleLabel setFont:[UIFont boldSystemFontOfSize:18.0f]];
+        [button addTarget:self action:@selector(cancalButtonAction) forControlEvents:(UIControlEventTouchUpInside)];
+        [_contentView addSubview:button];
+        _cancelBtn = button;
+    }
+    [_cancelBtn setTitle:action.title forState:(UIControlStateNormal)];
+    [_cancelBtn setTitleColor:[JRSheetAction jr_coverJRAlertActionStyle:action.style] forState:UIControlStateNormal];
 }
 
 - (void)cancalButtonAction{
@@ -517,7 +540,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [self getDataSource].count;
+    return _defaultArrs.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -526,7 +549,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
     if (!cell) {
         cell = [[JRActionSheetViewTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:identifier];
     }
-    JRSheetAction *alertAction = [self getDataSource][indexPath.row];
+    JRSheetAction *alertAction = _defaultArrs[indexPath.row];
     [cell setCellData:alertAction];
     return cell;
 }

@@ -31,12 +31,14 @@ typedef NS_ENUM(NSInteger, JRAlertActionStyle) {
 /** 添加行 */
 - (void)addJRSheetAction:(JRSheetAction *_Nullable)action;
 
+- (void)insertJRSheetAction:(JRSheetAction *_Nullable)action atIndex:(NSUInteger)index;
+
 /** 设置选择行 */
-- (void)setSelectAlertAction:(JRSheetAction *_Nullable)alertAction;
+//- (void)setSelectAlertAction:(JRSheetAction *_Nullable)alertAction;
 
 @property (nonatomic, readonly) NSArray<JRSheetAction *> * _Nullable alartActions;
 
-@property (nonatomic, readonly) JRSheetAction * _Nullable selectedAlertAction;
+//@property (nonatomic, readonly) JRSheetAction * _Nullable selectedAlertAction;
 /**
  显示view
  */

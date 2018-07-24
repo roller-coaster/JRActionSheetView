@@ -50,6 +50,9 @@
         }
         [jr1 show];
     }]];
+    [actionSheetView addJRSheetAction:[JRSheetAction sheetActionWithTitle:@"3333" style:(JRAlertActionStyleCancel) handler:^(JRSheetAction * _Nullable action) {
+        NSLog(@"sm都不敢");
+    }]];
     for (NSInteger i = 0; i < 10; i ++) {
         JRSheetAction *action = [JRSheetAction sheetActionWithTitle:@"test" style:(JRAlertActionStyleDefault) handler:^(JRSheetAction * _Nullable action) {
             NSLog(@"%ld", (long)i);
@@ -69,6 +72,12 @@
         }];
         [actionSheetView addJRSheetAction:action];
     }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        JRSheetAction *insertaction = [JRSheetAction sheetActionWithTitle:@"tes222t" style:(JRAlertActionStyleDefault) handler:^(JRSheetAction * _Nullable action) {
+
+        }];
+        [actionSheetView insertJRSheetAction:insertaction atIndex:100];
+    });
     [actionSheetView show];
 
 }
