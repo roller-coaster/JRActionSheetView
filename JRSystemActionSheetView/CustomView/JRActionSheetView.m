@@ -303,10 +303,11 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
     [window addSubview:self];
     CGRect backgroudViewF = _contentView.frame;
     backgroudViewF.origin.y = CGRectGetHeight(self.frame)/3;
+    __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.25f delay:0.0f options:(UIViewAnimationOptionCurveLinear) animations:^{
-        self.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.7987f];
-        _contentView.frame = backgroudViewF;
-        _contentView.frame = backgroudViewF;
+        weakSelf.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.7987f];
+        weakSelf.contentView.frame = backgroudViewF;
+        weakSelf.contentView.frame = backgroudViewF;
     } completion:^(BOOL finished) {
 
     }];
@@ -421,11 +422,12 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
 - (void)hiddenJRActionSheetView:(void(^)(BOOL finished))completion{
     CGRect backgroudViewF = _contentView.frame;
     backgroudViewF.origin.y = CGRectGetHeight(self.frame);
+    __weak typeof(self)weakSelf = self;
     [UIView animateWithDuration:0.25f delay:0.0f options:(UIViewAnimationOptionCurveLinear) animations:^{
-        self.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:.0f];
-        _contentView.frame = backgroudViewF;
+        weakSelf.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:.0f];
+        weakSelf.contentView.frame = backgroudViewF;
     } completion:^(BOOL finished) {
-        [self removeFromSuperview];
+        [weakSelf removeFromSuperview];
         _onlyOneJRActionSheetView = nil;
         if (completion) completion(YES);
     }];
