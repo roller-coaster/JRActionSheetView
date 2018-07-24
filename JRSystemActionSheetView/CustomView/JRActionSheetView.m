@@ -278,6 +278,7 @@ static JRActionSheetView *_onlyOneJRActionSheetView = nil;
                 [_myTableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:(UITableViewRowAnimationNone)];
                 [_myTableView endUpdates];
             }
+            [self setNeedsLayout];
         }
     }
 }
