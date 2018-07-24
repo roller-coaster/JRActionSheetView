@@ -262,9 +262,9 @@ static JRActionSheetView *_onlyOneJRActionSheetView = nil;
 
 - (void)insertJRSheetAction:(JRSheetAction *)action atIndex:(NSUInteger)index {
     if (action) {
+        NSMutableArray *muArr = [NSMutableArray arrayWithArray:self.alartActions];
+        [muArr addObject:action];
         if (![_defaultArrs containsObject:action] && action.style != JRAlertActionStyleCancel) {
-            NSMutableArray *muArr = [NSMutableArray arrayWithArray:self.alartActions];
-            [muArr addObject:action];
             if (index > _defaultArrs.count) {
                 index = _defaultArrs.count;
             }
