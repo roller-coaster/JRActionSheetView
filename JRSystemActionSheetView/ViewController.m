@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "JRActionSheetView.h"
+#import "JRActionSheetViewController.h"
 
 @interface ViewController ()
 {
@@ -91,5 +92,11 @@
     NSLog(@"是否了");
 }
 
+- (IBAction)_testButtonAction:(id)sender {
+    JRActionSheetViewController *vc = [JRActionSheetViewController alertControllerWithTitle:@"2233" message:@"4455"];
+//    JRActionSheetViewController *vc = [[JRActionSheetViewController alloc] init];
+
+    [vc show];
+}
 
 @end

@@ -204,6 +204,8 @@ CGFloat const JRActionSheetView_Default_CornerRadius = 10.0f;
 
 @property (nonatomic, strong) NSMutableArray *defaultArrs;
 
+@property (nonatomic, weak) UIView *keyboardView;
+
 @end
 
 @implementation JRActionSheetView
@@ -300,9 +302,11 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
     if (_myTableView) {
         [_myTableView reloadData];
     }
-    UIView *keyBoardView = [UIView jr_findKeyboardView];
+    _keyboardView = [UIView jr_findKeyboardView];
     /** 有键盘先收起键盘再弹出 */
-    if(keyBoardView) [keyBoardView setHidden:YES];
+    if(_keyboardView) {
+        [_keyboardView setHidden:YES];
+    }
     UIWindow * window=[[[UIApplication sharedApplication] delegate] window];
     [window addSubview:self];
     CGRect backgroudViewF = _contentView.frame;
@@ -433,6 +437,9 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
     } completion:^(BOOL finished) {
         [weakSelf removeFromSuperview];
         _onlyOneJRActionSheetView = nil;
+        if (weakSelf.keyboardView) {
+            [weakSelf.keyboardView setHidden:NO];
+            }
         if (completion) completion(YES);
     }];
 }
