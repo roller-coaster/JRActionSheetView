@@ -321,6 +321,11 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
     }];
 }
 
+- (void)dismiss
+{
+    [self hiddenJRActionSheetView:nil];
+}
+
 - (void)layoutSubviews{
     [super layoutSubviews];
     CGFloat iPhoneXSafe_bottom = 0;
@@ -439,7 +444,7 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
         _onlyOneJRActionSheetView = nil;
         if (weakSelf.keyboardView) {
             [weakSelf.keyboardView setHidden:NO];
-            }
+        }
         if (completion) completion(YES);
     }];
 }

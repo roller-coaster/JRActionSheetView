@@ -44,4 +44,7 @@ typedef NS_ENUM(NSInteger, JRAlertActionStyle) {
  */
 - (void)show;
 
+/// 隐藏
+- (void)dismiss;
+
 @end
