@@ -47,4 +47,6 @@ typedef NS_ENUM(NSInteger, JRAlertActionStyle) {
 /// 隐藏
 - (void)dismiss;
 
++ (JRActionSheetView *)getJRActionSheetView;
+
 @end

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		661CDDEC21BA0A8A00A97A38 /* JRActionSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CDDEB21BA0A8A00A97A38 /* JRActionSheetViewController.m */; };
 		66384F021FD4DA8A00F5669B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66384F011FD4DA8A00F5669B /* AppDelegate.m */; };
 		66384F051FD4DA8A00F5669B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66384F041FD4DA8A00F5669B /* ViewController.m */; };
 		66384F081FD4DA8A00F5669B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66384F061FD4DA8A00F5669B /* Main.storyboard */; };
@@ -20,8 +19,6 @@
 
 /* Begin PBXFileReference section */
 		1AD03A5E65038590AE748038 /* libPods-JRSystemActionSheetView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JRSystemActionSheetView.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		661CDDEA21BA0A8A00A97A38 /* JRActionSheetViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JRActionSheetViewController.h; sourceTree = "<group>"; };
-		661CDDEB21BA0A8A00A97A38 /* JRActionSheetViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JRActionSheetViewController.m; sourceTree = "<group>"; };
 		66384EFD1FD4DA8A00F5669B /* JRSystemActionSheetView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JRSystemActionSheetView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66384F001FD4DA8A00F5669B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		66384F011FD4DA8A00F5669B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -91,8 +88,6 @@
 			children = (
 				66384F171FD4DAA400F5669B /* JRActionSheetView.m */,
 				66384F191FD4DAA400F5669B /* JRActionSheetView.h */,
-				661CDDEA21BA0A8A00A97A38 /* JRActionSheetViewController.h */,
-				661CDDEB21BA0A8A00A97A38 /* JRActionSheetViewController.m */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -241,7 +236,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				66384F1B1FD4DAA400F5669B /* JRActionSheetView.m in Sources */,
-				661CDDEC21BA0A8A00A97A38 /* JRActionSheetViewController.m in Sources */,
 				66384F051FD4DA8A00F5669B /* ViewController.m in Sources */,
 				66384F101FD4DA8A00F5669B /* main.m in Sources */,
 				66384F021FD4DA8A00F5669B /* AppDelegate.m in Sources */,

@@ -210,6 +210,60 @@ CGFloat const JRActionSheetView_Default_CornerRadius = 10.0f;
 
 @implementation JRActionSheetView
 
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    CGFloat iPhoneXSafe_bottom = 0;
+    if (@available(iOS 11.0, *)) {
+        iPhoneXSafe_bottom = self.safeAreaInsets.bottom;
+    }
+    CGFloat width = MIN(CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
+    CGFloat height = CGRectGetHeight(self.frame) - iPhoneXSafe_bottom;
+    _contentView.frame = CGRectMake(JRActionSheetView_Default_Margin, height/3, width-JRActionSheetView_Default_Margin*2, height*2/3-JRActionSheetView_Default_Margin);
+    [_contentView setCenter:CGPointMake(CGRectGetWidth(self.frame)/2, _contentView.center.y)];
+    CGRect backgroudViewF = _contentView.frame;
+
+
+    CGRect cancalBtnF = _cancelBtn.frame;
+    if (_cancelBtn) {
+        cancalBtnF = CGRectMake(0, CGRectGetHeight(backgroudViewF) - JRActionSheetView_CancelBtn_Hight - JRActionSheetView_Default_Margin, CGRectGetWidth(backgroudViewF), JRActionSheetView_CancelBtn_Hight);
+        [_cancelBtn setFrame:cancalBtnF];
+        _cancelBtn.layer.cornerRadius = JRActionSheetView_Default_CornerRadius;
+    }
+
+    if (!_myTableView && !_textView) return;
+    CGFloat subContentViewHeight_Max = CGRectGetMinY(cancalBtnF) - JRActionSheetView_Default_Margin;
+    CGFloat textViewHeight = [self heightForHeaderViewForSection:CGRectGetWidth(backgroudViewF)];
+    CGRect textViewF = CGRectZero;
+    CGRect myTableViewF = CGRectZero;
+    if (_textView) {
+        _textView.scrollEnabled = NO;
+        if (subContentViewHeight_Max/2 < textViewHeight) {
+            textViewHeight = subContentViewHeight_Max/2;
+            _textView.scrollEnabled = YES;
+        }
+        textViewF = CGRectMake(0, 0, CGRectGetWidth(backgroudViewF), textViewHeight);
+    }
+    if (_myTableView) {
+        /** cell的总高度 */
+        CGFloat cellTotalHeight = [self getDataSource].count * JRActionSheetView_CancelBtn_Hight;
+        BOOL isScroll = YES;
+        /** tableView实际高度 */
+        CGFloat myTableViewHeight = subContentViewHeight_Max - textViewHeight;
+        if (myTableViewHeight > cellTotalHeight) {
+            myTableViewHeight = cellTotalHeight;
+            isScroll = NO;
+        }
+        _myTableView.scrollEnabled = isScroll;
+        myTableViewF = CGRectMake(0, textViewHeight+.4f, CGRectGetWidth(backgroudViewF), myTableViewHeight-.4f);
+    }
+    _subContentView.frame = CGRectMake(0, subContentViewHeight_Max-CGRectGetHeight(myTableViewF)-CGRectGetHeight(textViewF), CGRectGetWidth(backgroudViewF), CGRectGetHeight(textViewF)+CGRectGetHeight(myTableViewF));
+    _subContentView.layer.masksToBounds = YES;
+    _subContentView.layer.cornerRadius = JRActionSheetView_Default_CornerRadius;
+    _myTableView.frame = myTableViewF;
+    _textView.frame = textViewF;
+}
+
+
 #pragma mark - Public Methods
 
 static JRActionSheetView *_onlyOneJRActionSheetView = nil;
@@ -289,7 +343,8 @@ static JRActionSheetView *_onlyOneJRActionSheetView = nil;
 /** 视图堆栈 */
 static NSMutableArray *_jrActionSheetViewArrs = nil;
 #pragma mark 展示出来
-- (void)show{
+- (void)show
+{
     /** 可以连续show出来 */
 //    if (!_jrActionSheetViewArrs) _jrActionSheetViewArrs = @[].mutableCopy;
 //    [_jrActionSheetViewArrs addObject:self];
@@ -321,62 +376,15 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
     }];
 }
 
+#pragma mark 隐藏视图
 - (void)dismiss
 {
     [self hiddenJRActionSheetView:nil];
 }
 
-- (void)layoutSubviews{
-    [super layoutSubviews];
-    CGFloat iPhoneXSafe_bottom = 0;
-    if (@available(iOS 11.0, *)) {
-        iPhoneXSafe_bottom = self.safeAreaInsets.bottom;
-    }
-    CGFloat width = MIN(CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
-    CGFloat height = CGRectGetHeight(self.frame) - iPhoneXSafe_bottom;
-    _contentView.frame = CGRectMake(JRActionSheetView_Default_Margin, height/3, width-JRActionSheetView_Default_Margin*2, height*2/3-JRActionSheetView_Default_Margin);
-    [_contentView setCenter:CGPointMake(CGRectGetWidth(self.frame)/2, _contentView.center.y)];
-    CGRect backgroudViewF = _contentView.frame;
-
-
-    CGRect cancalBtnF = _cancelBtn.frame;
-    if (_cancelBtn) {
-        cancalBtnF = CGRectMake(0, CGRectGetHeight(backgroudViewF) - JRActionSheetView_CancelBtn_Hight - JRActionSheetView_Default_Margin, CGRectGetWidth(backgroudViewF), JRActionSheetView_CancelBtn_Hight);
-        [_cancelBtn setFrame:cancalBtnF];
-        _cancelBtn.layer.cornerRadius = JRActionSheetView_Default_CornerRadius;
-    }
-
-    if (!_myTableView && !_textView) return;
-    CGFloat subContentViewHeight_Max = CGRectGetMinY(cancalBtnF) - JRActionSheetView_Default_Margin;
-    CGFloat textViewHeight = [self heightForHeaderViewForSection:CGRectGetWidth(backgroudViewF)];
-    CGRect textViewF = CGRectZero;
-    CGRect myTableViewF = CGRectZero;
-    if (_textView) {
-        _textView.scrollEnabled = NO;
-        if (subContentViewHeight_Max/2 < textViewHeight) {
-            textViewHeight = subContentViewHeight_Max/2;
-            _textView.scrollEnabled = YES;
-        }
-        textViewF = CGRectMake(0, 0, CGRectGetWidth(backgroudViewF), textViewHeight);
-    }
-    if (_myTableView) {
-        /** cell的总高度 */
-        CGFloat cellTotalHeight = [self getDataSource].count * JRActionSheetView_CancelBtn_Hight;
-        BOOL isScroll = YES;
-        /** tableView实际高度 */
-        CGFloat myTableViewHeight = subContentViewHeight_Max - textViewHeight;
-        if (myTableViewHeight > cellTotalHeight) {
-            myTableViewHeight = cellTotalHeight;
-            isScroll = NO;
-        }
-        _myTableView.scrollEnabled = isScroll;
-        myTableViewF = CGRectMake(0, textViewHeight+.4f, CGRectGetWidth(backgroudViewF), myTableViewHeight-.4f);
-    }
-    _subContentView.frame = CGRectMake(0, subContentViewHeight_Max-CGRectGetHeight(myTableViewF)-CGRectGetHeight(textViewF), CGRectGetWidth(backgroudViewF), CGRectGetHeight(textViewF)+CGRectGetHeight(myTableViewF));
-    _subContentView.layer.masksToBounds = YES;
-    _subContentView.layer.cornerRadius = JRActionSheetView_Default_CornerRadius;
-    _myTableView.frame = myTableViewF;
-    _textView.frame = textViewF;
++ (JRActionSheetView *)getJRActionSheetView
+{
+    return _onlyOneJRActionSheetView;
 }
 
 //- (void)setSelectAlertAction:(JRSheetAction *)alertAction{

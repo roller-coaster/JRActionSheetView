@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "JRActionSheetView.h"
-#import "JRActionSheetViewController.h"
+//#import "JRActionSheetViewController.h"
 
 @interface ViewController ()
 {
@@ -21,6 +21,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSLog(@"2233");
+        [[JRActionSheetView getJRActionSheetView] dismiss];
+    });
 }
 
 - (IBAction)showSimpleDemo:(id)sender {
@@ -93,10 +97,10 @@
 }
 
 - (IBAction)_testButtonAction:(id)sender {
-    JRActionSheetViewController *vc = [JRActionSheetViewController alertControllerWithTitle:@"2233" message:@"4455"];
+//    JRActionSheetViewController *vc = [JRActionSheetViewController alertControllerWithTitle:@"2233" message:@"4455"];
 //    JRActionSheetViewController *vc = [[JRActionSheetViewController alloc] init];
 
-    [vc show];
+//    [vc show];
 }
 
 @end
