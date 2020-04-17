@@ -43,7 +43,9 @@
 //    }]];
 //    [self.navigationController presentViewController:alertCon animated:YES completion:nil];
 //    return;
-    JRActionSheetView *actionSheetView = [JRActionSheetView actionSheetViewWithTitle:@"很多被窝" message:@"堤村"];
+    NSString *name = @"https://apps.apple.com/cn/app/%E7%A7%BB%E5%8A%A8oa-%E4%BD%A0%E7%9A%84%E9%9A%8F%E8%BA%ABoa%E5%8A%A9%E7%90%86/id1138172946";
+    
+    JRActionSheetView *actionSheetView = [JRActionSheetView actionSheetViewWithTitle:[NSString stringWithFormat:@"%@\n%@", name, @"可能是一个超链接，你可以"] message:nil];
     [actionSheetView addJRSheetAction:[JRSheetAction sheetActionWithTitle:@"222" style:(JRAlertActionStyleCancel) handler:^(JRSheetAction * _Nullable action) {
         JRActionSheetView *jr1 = [JRActionSheetView actionSheetViewWithTitle:@"取消" message:@"我是取消弹出来的"];
         [jr1 addJRSheetAction:[JRSheetAction sheetActionWithTitle:@"取消" style:JRAlertActionStyleCancel handler:nil]];

@@ -479,9 +479,9 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
 #pragma mark 创建标题View
 - (void)createTextView{
     if (_title || _message) {
-        UITextView *customTextView = [[UITextView alloc] initWithFrame:CGRectZero];
+        UITextView *customTextView = [[UITextView alloc] initWithFrame:CGRectMake(0.0, 0.0, CGRectGetWidth(self.frame), 0.0)];
         customTextView.font = [UIFont boldSystemFontOfSize:15.0f];
-        if (_title.length > 0) customTextView.text = [NSString stringWithFormat:@"%@ \n", _title];
+        customTextView.text = _title;
         customTextView.textColor = [UIColor grayColor];
         customTextView.editable = NO;
         customTextView.selectable = NO;
@@ -549,17 +549,22 @@ static NSMutableArray *_jrActionSheetViewArrs = nil;
 - (CGFloat)heightForHeaderViewForSection:(CGFloat)width{
     CGFloat height = 0;
     if (_title || _message) {
-        UIFont *titleFont = [UIFont boldSystemFontOfSize:15.0f];
-        UIFont *messageFont = [UIFont systemFontOfSize:15.0f];
-        CGSize titleSize = CGSizeMake(0, 10);
-        CGSize messageSize = CGSizeMake(0, 10);
-        if (_title.length > 0) titleSize = [[NSString stringWithFormat:@"%@", _title] boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:titleFont} context:nil].size;
-        if (_message.length > 0) messageSize = [_message boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:messageFont} context:nil].size;
-        if (_title.length > 0 && _message.length > 0) {
-            if (_title.length > 0) titleSize = [[NSString stringWithFormat:@"%@ \n", _title] boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:titleFont} context:nil].size;
-            if (_message.length > 0) messageSize = [_message boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:messageFont} context:nil].size;
-        }
-        height = titleSize.height + messageSize.height + JRActionSheetView_Default_Margin;
+        CGRect rect = self.textView.frame;
+        rect.size.width = width;
+        self.textView.frame = rect;
+        [self.textView sizeToFit];
+        height = CGRectGetHeight(self.textView.frame);
+//        UIFont *titleFont = [UIFont boldSystemFontOfSize:15.0f];
+//        UIFont *messageFont = [UIFont systemFontOfSize:15.0f];
+//        CGSize titleSize = CGSizeMake(0, 10);
+//        CGSize messageSize = CGSizeMake(0, 10);
+//        if (_title.length > 0) titleSize = [[NSString stringWithFormat:@"%@", _title] boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:titleFont} context:nil].size;
+//        if (_message.length > 0) messageSize = [_message boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:messageFont} context:nil].size;
+//        if (_title.length > 0 && _message.length > 0) {
+//            if (_title.length > 0) titleSize = [[NSString stringWithFormat:@"%@ \n", _title] boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:titleFont} context:nil].size;
+//            if (_message.length > 0) messageSize = [_message boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:messageFont} context:nil].size;
+//        }
+//        height = titleSize.height + messageSize.height + JRActionSheetView_Default_Margin;
     }
     return height;
 }
