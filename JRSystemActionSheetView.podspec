@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name         = 'JRSystemActionSheetView'
-s.version      = '1.4.3.5'
+s.version      = '1.4.4.0'
 s.summary      = 'like System UIAlertcontroller actionSheet'
 s.homepage     = 'https://github.com/roller-coaster/JRActionSheetView'
 s.license      = 'MIT'
